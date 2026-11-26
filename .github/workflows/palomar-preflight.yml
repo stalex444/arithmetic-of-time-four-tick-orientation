@@ -13,12 +13,12 @@ permissions:
 
 jobs:
   verify:
-    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@046554302064b2c83c2b924bea6db87fc5900c68
     with:
       repository: ${{ github.repository }}
       commit: ${{ inputs.commit }}
-      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
-      request_id: fourtickorientation1
+      pipeline_commit: 046554302064b2c83c2b924bea6db87fc5900c68
+      request_id: fourtick0001
       mode: full
       execution_profile: palomar-standard-v1
       options: '{"comparator_config_path":"comparator.json","authorization_relationship":"I am a responsible author or maintainer"}'
