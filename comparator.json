@@ -1,0 +1,28 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "FourTickOrientation.Cubic.exact_orientation_threshold_four",
+    "FourTickOrientation.Quartic.exact_orientation_threshold_four",
+    "FourTickOrientation.Quartic.inLanguageFrom_iff",
+    "FourTickOrientation.Quartic.exact_orientation_threshold_four_any_seed",
+    "FourTickOrientation.Tensor.exact_orientation_threshold_four",
+    "FourTickOrientation.Tensor.inLanguageFrom_iff",
+    "FourTickOrientation.Tensor.exact_orientation_threshold_four_any_seed"
+  ],
+  "definition_names": [
+    "FourTickOrientation.Cubic.s",
+    "FourTickOrientation.Cubic.S",
+    "FourTickOrientation.Cubic.InLanguage",
+    "FourTickOrientation.Quartic.s",
+    "FourTickOrientation.Quartic.S",
+    "FourTickOrientation.Quartic.InLanguage",
+    "FourTickOrientation.Quartic.InLanguageFrom",
+    "FourTickOrientation.Tensor.s",
+    "FourTickOrientation.Tensor.S",
+    "FourTickOrientation.Tensor.InLanguage",
+    "FourTickOrientation.Tensor.InLanguageFrom"
+  ],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}
