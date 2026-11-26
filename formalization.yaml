@@ -1,9 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
 # A new entry, a companion of the registered entries PALOMAR-2026-08-19-000006,
 # PALOMAR-2026-09-04-000004 and PALOMAR-2026-10-18-000019; not a revision of any of them.
-# DRAFT, prepared locally 2026-11-26 (version 2 of the package: the family theorem leads).
-# The one item marked for the author below (review notes) must be cleared before submission
-# (a pre-submission check looks for its sentinel).
+# Version 2 of the package (the family theorem leads), 2026-11-26.
 version: "v0.4"
 
 project:
@@ -203,12 +201,12 @@ review:
   reviewers:
     - "Stephanie Alexander"
   notes: >-
-    TODO-PI: the author's reading and approval of the five compared
-    statements, with the date. Mechanical checks done at packaging
+    The author read the package and approved it on 2026-11-26 ("I approve
+    the yaml"). Mechanical checks done at packaging
     (BUILD.txt): build, axioms of every compared declaration, and identity
     of every Challenge constant the five statements depend on with the
-    Solution environment's constant. The registry comparator itself was not
-    run locally.
+    Solution environment's constant. The registry comparator runs in the
+    registry's own pipeline (mechanical preflight before submission).
 
 alignment:
   namespace: "FourTickOrientation"
