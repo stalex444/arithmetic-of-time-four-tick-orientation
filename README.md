@@ -287,8 +287,8 @@ lake exe cache get
 lake build
 ```
 
-Toolchain `leanprover/lean4:v4.31.0`; Mathlib `fabf563a7c95a166b8d7b6efca11c8b4dc9d911f` (tag
-`v4.31.0`). The build record, axiom audit and statement-identity checks are in `BUILD.txt`.
+Toolchain `leanprover/lean4:v4.35.0-rc2`; Mathlib `065356127b1dc0016f66b7283ce0ce2c4055aa55`. The build
+record, axiom audit and statement-identity checks are in `BUILD.txt`.
 
 ## Files
 

@@ -143,7 +143,9 @@ automation:
         AI-assisted proof drafting and error-loop iteration against lake
         build in the author's development repository; the package was
         assembled from those kernel proofs (namespaces changed, proofs
-        unchanged) and checked against the same toolchain and Mathlib.
+        unchanged), checked against the same toolchain and Mathlib
+        (Lean v4.31.0, Mathlib fabf563a), then ported without source edits
+        to Lean v4.35.0-rc2 and Mathlib 065356127b and rechecked there.
       cost:
         wall_time: "not recorded (sessions 2026-09-04, 2026-11-25 and 2026-11-26)"
         spend_usd: "subscription-based"

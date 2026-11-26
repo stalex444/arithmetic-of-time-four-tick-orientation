@@ -1,27 +1,44 @@
-four_tick_orientation -- kernel build record, version 2, 2026-11-26 (local packaging session; nothing pushed,
-committed or submitted)
+four_tick_orientation -- kernel build record, version 2, ported to Lean v4.35.0-rc2, 2026-11-26 (local packaging
+session; nothing pushed, committed or submitted)
 Repository (chosen by the PI 2026-11-26): stalex444/arithmetic-of-time-four-tick-orientation
 Version 2 replaces the separate cubic and quartic compared statements (and FourTickCubic.lean, FourTickQuartic.lean)
 by the family theorem for every n >= 3, of which they are the cases n = 3 and n = 4. The tensor statements are kept.
-Toolchain: leanprover/lean4:v4.31.0
-  lean --version: Lean (version 4.31.0, x86_64-unknown-linux-gnu,
-                  commit 68218e876d2a38b1985b8590fff244a83c321783, Release)
-Mathlib rev: fabf563a7c95a166b8d7b6efca11c8b4dc9d911f (tag v4.31.0)
-  lake-manifest: unchanged from version 1 (the author's development repository's lean/lake-manifest.json, same
-    pin, with the package name four_tick_orientation and mathlib's inputRev set to the full SHA)
-  .lake/packages: symlink -> the development repository's lean/.lake/packages (Mathlib already built at fabf563;
-    HEAD of that checkout verified = fabf563a7c95a166b8d7b6efca11c8b4dc9d911f). lake exe cache get was NOT run
+
+Port (2026-11-26): the registry preflight rejected the v4.31.0 build ("Lean toolchain leanprover/lean4:v4.31.0 is
+  older than the minimum Palomar supports (v4.35.0-rc2)"). The package was moved to the toolchain and Mathlib pin of
+  the house's other v4.35.0-rc2 packages (lean/PortalMinimumPkg: lean-toolchain, lakefile rev, lake-manifest).
+  Files changed by the port: lean-toolchain, lakefile.toml (mathlib rev only), lake-manifest.json (replaced by
+    PortalMinimumPkg's manifest with the package name four_tick_orientation), BUILD.txt, README.md (the Building
+    paragraph: toolchain and Mathlib), formalization.yaml (automation.tool_setup: the port sentence), SHA256SUMS.
+  NO Lean source was edited: Challenge.lean, Solution.lean, FourTickWords.lean, FourTickFamily.lean,
+    FourTickTensor.lean, Axioms.lean and comparator.json are byte-identical (cmp) to the v4.31.0 version 2 files
+    (sha256 below unchanged). No statement, definition, docstring or proof changed; no syntax or API rename was
+    needed.
+
+Toolchain: leanprover/lean4:v4.35.0-rc2
+  lean --version: Lean (version 4.35.0-rc2, x86_64-unknown-linux-gnu,
+                  commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)
+  (previously leanprover/lean4:v4.31.0, commit 68218e876d2a38b1985b8590fff244a83c321783)
+Mathlib rev: 065356127b1dc0016f66b7283ce0ce2c4055aa55 (previously fabf563a7c95a166b8d7b6efca11c8b4dc9d911f, tag v4.31.0)
+  lake-manifest: lean/PortalMinimumPkg/lake-manifest.json (mathlib 065356127b1dc0016f66b7283ce0ce2c4055aa55,
+    plausible e50948299c4d, LeanSearchClient 95e037bfdc31, importGraph 10930f8138f0, proofwidgets 4c70ac059693,
+    aesop 75d936c7af16, Qq 786b7acdca7e, batteries ed9b316aabe3, Cli 2842b9871b04 (v4.35.0-rc2)), package name set
+    to four_tick_orientation and a final newline added; no other change.
+  .lake/packages: symlink -> an existing built checkout of that pin (the house package
+    palomar/quartic-real-root-spread/.lake/packages; HEAD of every package checkout verified equal to its manifest
+    rev; Mathlib already built there; no file under it was modified by this build). lake exe cache get was NOT run
     for this package: the standalone fresh-cache build is the author's step (see the end of this file).
 
 Build: lake build (defaultTargets FourTickWords, FourTickFamily, FourTickTensor, Challenge, Solution)
-  -> Build completed successfully (8567 jobs), exit 0.
-  Fresh copy: the package files were copied (cp, no .lake/build) to a scratch directory with only .lake/packages
-  symlinked; every project module compiled from source: Challenge 5.4 s, FourTickWords 5.6 s, FourTickFamily 17 s,
-  FourTickTensor 39 s, Solution 4.4 s; 57 s wall. The Lean files, lakefile, manifest and comparator.json of that
-  copy are byte-identical (cmp) to the files hashed below.
-  Only warnings: the 5 'declaration uses sorry' warnings of Challenge.lean (lines 86, 93, 141, 148, 155: the
-    compared placeholders). No warning in any other module.
-  Token counts (whole-word grep, per file):
+  -> Build completed successfully (8940 jobs), exit 0, first attempt, no source edits.
+  Fresh: the package files were copied (no .lake/build) to a new directory with only .lake/packages symlinked;
+  every project module compiled from source (FourTickFamily 29 s, FourTickWords 55 s, Challenge 56 s,
+  FourTickTensor 30 s, Solution 4.2 s, run concurrently; 2 min 30 s wall).
+  Only warnings: the 5 'declaration uses `sorry`' warnings of Challenge.lean (lines 86, 93, 141, 148, 155: the
+    compared placeholders). No warning in any other module. (Under v4.31.0, a full `import Mathlib` in
+    FourTickFamily broke `closure`; the module still imports exactly Mathlib.Logic.Function.Iterate and
+    Mathlib.Tactic.SplitIfs, unchanged, and builds cleanly under v4.35.0-rc2.)
+  Token counts (whole-word grep, per file; unchanged):
     Challenge.lean        sorry=5 admit=0 native_decide=0 axiom=0
     Solution.lean         sorry=0 admit=0 native_decide=0 axiom=0
     FourTickWords.lean    sorry=0 admit=0 native_decide=0 axiom=0
@@ -33,7 +50,8 @@ Build: lake build (defaultTargets FourTickWords, FourTickFamily, FourTickTensor,
   FourTickTensor imports Mathlib and FourTickWords; FourTickWords imports Mathlib; FourTickFamily imports
   Mathlib.Logic.Function.Iterate and Mathlib.Tactic.SplitIfs (its source's imports; see Module provenance).
 
-#print axioms (lake env lean Axioms.lean, Axioms.lean importing Solution; identical output in the fresh copy):
+#print axioms (lake env lean Axioms.lean, Axioms.lean importing Solution; v4.35.0-rc2. The axiom lists are identical
+  to the v4.31.0 record; v4.35.0-rc2's printer wraps two long lists over three lines, joined here):
   'FourTickOrientation.Family.exact_orientation_threshold_four' depends on axioms: [propext, Classical.choice, Quot.sound]
   'FourTickOrientation.Family.inLanguageFrom_iff' depends on axioms: [propext, Quot.sound]
   'FourTickOrientation.Tensor.exact_orientation_threshold_four' depends on axioms: [propext, Classical.choice, Quot.sound]
@@ -58,9 +76,9 @@ Build: lake build (defaultTargets FourTickWords, FourTickFamily, FourTickTensor,
   Permitted (comparator.json): propext, Quot.sound, Classical.choice. Every compared statement is within them.
 
 Statement identity, Challenge vs Solution (5 theorems; definitions: Family.s, S, InLanguage, InLanguageFrom;
-  Tensor.Letter, s, S, InLanguage, InLanguageFrom)
-  Source text: 14/14 Challenge declarations identical (code whitespace-normalised, line comments stripped; theorem
-    statements up to ':= by' compared with Solution.lean, definitions and the inductive in full compared with the
+  Tensor.Letter, s, S, InLanguage, InLanguageFrom). Both checks rerun under v4.35.0-rc2 / Mathlib 065356127b:
+  Source text (rerun; the Lean files are byte-identical to v4.31.0): 14/14 Challenge declarations identical
+    (code whitespace-normalised, line comments stripped; theorem statements up to ':= by' compared with Solution.lean, definitions and the inductive in full compared with the
     library modules; declaration docstrings word-identical). Challenge and FourTickFamily take the family
     definitions from one block; Challenge and Solution take the statements and docstrings from one block per
     statement; the tensor definitions and statements are those of version 1 (statements renumbered 5-7 -> 3-5).
@@ -70,7 +88,9 @@ Statement identity, Challenge vs Solution (5 theorems; definitions: Family.s, S,
     recursor rules), serialised with de Bruijn indices and without binder names: 33 constants (5 theorems, 14
     definitions including the compiler auxiliaries Family.S._f, Family.S.match_1, Tensor.S._f, Tensor.S.match_1,
     Tensor.s.match_1 and Tensor.Letter.casesOn, 1 inductive, 12 constructors, 1 recursor). The two printouts are
-    byte-identical (cmp; sha256 8ef1a44fa8be9b628a6ea6684030dfeab73f7cde523d4f88181146abdb45deb0).
+    byte-identical (cmp; sha256 8ef1a44fa8be9b628a6ea6684030dfeab73f7cde523d4f88181146abdb45deb0), and
+    byte-identical to the two v4.31.0 printouts (same sha256): the port changed no kernel term of any compared
+    statement or reached definition.
   Proofs unchanged: diff of FourTickFamily.lean against the source (from S_nil to
     length_three_orientation_ambiguity) shows only the moved InLanguage definition; the proof of
     Family.inLanguageFrom_iff in Solution.lean (with its local lemma iterate_infix_aux) is the source's verbatim.
@@ -102,8 +122,9 @@ Module provenance (sources: the author's development repository, lean/)
     edits module docstrings and one section heading only (references to the removed cubic and quartic modules,
     and the statement numbers 5-7 -> 3-5); no declaration changes.
   Solution.lean, Challenge.lean, Axioms.lean, comparator.json, lakefile.toml, README.md, formalization.yaml:
-    rewritten for version 2, 2026-11-26. LICENSE, .gitignore, .github/, lean-toolchain, lake-manifest.json:
-    unchanged from version 1.
+    rewritten for version 2, 2026-11-26. LICENSE, .gitignore, .github/: unchanged from version 1. lean-toolchain,
+    lakefile.toml (mathlib rev), lake-manifest.json, README.md (Building), formalization.yaml (tool_setup): changed
+    by the v4.35.0-rc2 port, 2026-11-26 (see Port).
 
 Files (sha256)
   9fdaafa67121c48f2e3488411fd0d84e3ab90395748247fc6b1bff978d804174  Challenge.lean
@@ -113,9 +134,9 @@ Files (sha256)
   110a32f0be12eab52e9848fff37b93e25047c5c76ffde45349bb425b421904c8  FourTickTensor.lean
   6efbedbc776a2bc33e1e0e5e5c3e207876bfbb858b0a2205469192d58cae0401  Axioms.lean
   1bd0c03f4285fdc7196caf0809cbb685c624daed8d52ce319e823828dabd94f4  comparator.json
-  95d1c3a0a6acd4e0d0a2c86b69e0b6a389b67371d00f133670dadaf2df2997c4  lakefile.toml
-  efac0b94923b2d8b6840cd35be9177ad0fc5ab2332f4f4311c98712cee92fdee  lean-toolchain
-  32c5e6de9ff3e9fd01dbcccb9590e5350b2e25836fdf32b4aca6d0b8433d9e9a  lake-manifest.json
+  590207fbe450ce61b7e2436751e41a552d5af4250ff0470f002dace8513cc1b4  lakefile.toml
+  8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a  lean-toolchain
+  748dada2e381cec5de5ebc893e6ee194f30261b03794704dbecec59c5a0d82a4  lake-manifest.json
   (README.md, formalization.yaml, LICENSE, .gitignore and .github/ are hashed in SHA256SUMS.)
 
 Remaining author steps (not done here)
