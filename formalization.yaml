@@ -1,37 +1,41 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
 # A new entry, a companion of the registered entries PALOMAR-2026-08-19-000006,
 # PALOMAR-2026-09-04-000004 and PALOMAR-2026-10-18-000019; not a revision of any of them.
-# DRAFT, prepared locally 2026-11-26. The TODO-PI items below must be cleared by the author
-# before submission (a pre-submission check looks for that sentinel).
+# DRAFT, prepared locally 2026-11-26 (version 2 of the package: the family theorem leads).
+# The one item marked for the author below (review notes) must be cleared before submission
+# (a pre-submission check looks for its sentinel).
 version: "v0.4"
 
 project:
-  name: "The exact orientation threshold 4 of the cubic Padovan substitution, the quartic substitution and their twelve-letter tensor (inflation factor rho Q)"
+  name: "The orientation threshold 4 for the substitutions of x^n - x - 1, n >= 3, and the twelve-letter rho Q tensor"
   description: >-
-    Kernel-checked proofs, in Lean 4 + Mathlib, of seven statements about the
-    factor languages of three substitutions: the cubic Padovan substitution
-    a -> b, b -> c, c -> ab (characteristic polynomial x^3 - x - 1), the
-    quartic substitution a -> b, b -> c, c -> d, d -> ab (x^4 - x - 1), and
-    their twelve-letter tensor product on {p, q, r} x {1, 2, 3, 4}, whose
+    Kernel-checked proofs, in Lean 4 + Mathlib, of five statements about the
+    factor languages of substitutions. Call a length L oriented when no
+    factor of length L has its reversal among the factors; being oriented
+    passes to every longer length, and fails at L when some factor of length
+    L is a palindrome. The orientation threshold is the least oriented
+    length (one more than the greatest length of a reflected factor).
+    (1) For every n >= 3, the substitution sigma_n on the letters 1, ..., n,
+    i -> i+1 (i < n), n -> 1 2, whose incidence matrix has characteristic
+    polynomial x^n - x - 1, has orientation threshold exactly 4 from the
+    seed 1: some factor of length three is its own reversal (1 2 1), and
+    every factor of length at least four has a reversal that is not a
+    factor. One proof covers every n: the certificate is a set of index
+    rules checked by omega, not an enumeration. n = 3 is the cubic Padovan
+    substitution a -> b, b -> c, c -> ab and n = 4 the quartic substitution
+    a -> b, b -> c, c -> d, d -> ab. (2) For every letter 1 <= x <= n, the
+    factor language of sigma_n from x is the one from 1. (3) The same as
+    (1) for the twelve-letter tensor product of the cubic and the quartic
+    substitution on {p, q, r} x {1, 2, 3, 4}, seed p1 (q1 q2 q1); its
     incidence matrix is the Kronecker product, with characteristic
     polynomial the minimal polynomial of rho Q (the product of the two real
-    roots greater than one). Call a length L oriented when no factor of
-    length L has its reversal among the factors; being oriented passes to
-    every longer length, and fails at L when some factor of length L is a
-    palindrome. (1) For the cubic substitution from the seed a: some factor
-    of length three is its own reversal (a b a), and every factor of length
-    at least four has a reversal that is not a factor. So the orientation
-    threshold is exactly 4. (2) The same for the quartic substitution (a b a).
-    (3) The quartic factor language is the same from every seed letter.
-    (4) Statement 2 from every seed x, with the reversal excluded from the
-    language of every seed y. (5) The same as (1) for the tensor
-    substitution from the seed p1 (q1 q2 q1). (6) The tensor factor language
-    is the same from every seed letter. (7) Statement 5 from every seed and
-    across seeds. The proof is a finite certificate of short words, closed
-    under short windows of images and checked by decide / decide +kernel
-    (no native_decide), propagated to all iterates by a window lemma and to
-    all lengths at least four by factor closure. No physical identification
-    is an axiom, a hypothesis or a conclusion of any statement.
+    roots greater than one). The tensor is not a member of the family.
+    (4) The tensor factor language is the same from every seed letter.
+    (5) Statement 3 from every seed and across seeds. No native_decide is
+    used: the family proof is omega and simp, the tensor proof a finite
+    certificate checked by decide / decide +kernel. No physical
+    identification is an axiom, a hypothesis or a conclusion of any
+    statement.
   authors:
     - "Stephanie Alexander"
   license: "MIT"
@@ -45,7 +49,7 @@ classification:
   msc2020: ["68R15", "37B10"]
 
 sources:
-  - title: "The exact orientation threshold 4 of the three substitutions (the seven compared statements)"
+  - title: "The orientation threshold 4 for the substitutions of x^n - x - 1 (n >= 3) and the rho Q tensor (the five compared statements)"
     authors:
       - "Stephanie Alexander"
     type: "original-proof"
@@ -55,26 +59,30 @@ sources:
     note: >-
       ORIGIN DECLARATION. The thresholds were first found by computation in
       the author's development record: the tensor substitution's on
-      2026-08-29 (findings log F:323), the quartic substitution's on
-      2026-11-21 (F:559); the cubic threshold was kernel-proved on 2026-09-04
-      (F:370), the tensor's on 2026-11-25 (F:653), the quartic's on
-      2026-11-26.
-      LITERATURE AND PRIOR-FORMALIZATION SEARCH, 2026-11-26 (arXiv full texts,
-      Crossref, the Palomar registry search API, Mathlib master, the Isabelle
-      AFP, web search). Finiteness of the threshold is published: Allouche,
-      Campbell, Li, Shallit and Stipulanti, Theory Comput. Syst. 69 (2025)
-      art. 31 (arXiv:2406.09302), Theorem 11 (a uniformly recurrent sequence
-      is reversal-closed or has no long reflected factors); the threshold here
-      is one more than the longest reflected factor, and their Proposition 57
-      (no paperfolding sequence has a reflected factor of length > 13) is a
-      statement of the same kind. The exact values are this entry's. No
-      published statement of them was found. Statement 1 was already public,
-      uncompared, in the registered repository of PALOMAR-2026-08-19-000006 v2
-      at dff2591 (PdtFourTickThreshold.exact_orientation_threshold_four; the
+      2026-08-29 (findings log F:323); the family's for n = 3..9 on
+      2026-10-18 (F:387), for the quartic member on 2026-11-21 (F:559), and
+      for n = 3..20 by exact factor-set closure on 2026-11-26, when the
+      index-rule certificate was also checked against the exact factor sets
+      for n = 3..40. Kernel proofs: the cubic member 2026-09-04 (F:370), the
+      tensor 2026-11-25 (F:653), the quartic member 2026-11-26 (F:654), and
+      the family theorem for every n >= 3 on 2026-11-26, which this entry
+      compares.
+      LITERATURE AND PRIOR-FORMALIZATION SEARCH, done 2026-11-26 (arXiv full
+      texts, Crossref, the Palomar registry search API, Mathlib master, the
+      Isabelle AFP, web search). Finiteness of the threshold is published:
+      Allouche, Campbell, Li, Shallit and Stipulanti, Theory Comput. Syst. 69
+      (2025) art. 31 (arXiv:2406.09302), Theorem 11 (a uniformly recurrent
+      sequence is reversal-closed or has no long reflected factors); the
+      threshold here is one more than the longest reflected factor, and their
+      Proposition 57 (no paperfolding sequence has a reflected factor of
+      length > 13) is a statement of the same kind. This entry proves the exact value 4 for every n >= 3 (the case n = 3 already public in the author's 000006 repository, below) and for the tensor. No published statement of it was found; the search covered the cubic, the quartic and the tensor substitution by name and rule, and the family as a standalone question (second search, 2026-11-26: no statement of the value, the longest reflected factor or the non-closure under reversal for any member with n >= 4; nearest: ACLSS Proposition 57; the Narayana-type sister family's non-closure via Frougny-Masakova-Pelantova 2004; the value 3 is not specific to this family). The case n = 3 of
+      statement 1 (seed a, letters a, b, c) was already public, uncompared,
+      in the registered repository of PALOMAR-2026-08-19-000006 v2 at
+      dff2591 (PDT.Padovan.exact_orientation_threshold_four in PdtFourTickThreshold.lean; the
       every-seed form padovan_exact_orientation_threshold_four in
-      Supplement.lean); it is the author's own earlier proof, compared here
-      for the first time. Statements 2-7 were not found in any public
-      repository. This is a search result, not a guarantee.
+      Supplement.lean); it is the author's own earlier proof. No public
+      repository containing the other cases or statements was found. This
+      is a search result, not a guarantee.
     license: "MIT"
 
 related_formalizations:
@@ -82,16 +90,16 @@ related_formalizations:
     relationship: "other"
     note: >-
       COMPANION ENTRY. Compared there: padovan_a_forces_b, padovan_chirality,
-      padovan_no_long_palindrome. Its padovan_no_long_palindrome is, for the
-      seed a, the no-palindrome half of statement 1 here. Its registered
-      repository (version 2, commit dff2591) also contains, proved but not
-      compared, statement 1 in the same form
-      (PdtFourTickThreshold.exact_orientation_threshold_four), an every-seed
+      padovan_no_long_palindrome. Its padovan_no_long_palindrome follows,
+      up to the renaming a, b, c = 1, 2, 3, from the case n = 3 of
+      statements 1 and 2 here. Its registered repository (version 2, commit
+      dff2591) also contains, proved but not compared, the case n = 3 of
+      statement 1 for the seed a
+      (PDT.Padovan.exact_orientation_threshold_four in PdtFourTickThreshold.lean), an every-seed
       form (padovan_exact_orientation_threshold_four), and the twelve-letter
       tensor's chirality and characteristic polynomial (rhoQ_chirality,
-      rhoQ_substitution_charpoly); FourTickCubic.lean copies its
-      PdtChirality.lean and PdtFourTickThreshold.lean. No compared statement
-      is shared.
+      rhoQ_substitution_charpoly). The list lemma infix_append_split of FourTickWords.lean comes from its PdtChirality.lean, and the tensor definitions Letter, s, S (with S_nil, S_cons) of FourTickTensor.lean from its PdtRhoQChirality.lean. No compared
+      statement is shared.
   - id: "Registered entries PALOMAR-2026-09-04-000004 (stalex444/chiral-padovan-histories) and PALOMAR-2026-10-18-000019 (stalex444/arithmetic-of-time-slowest-clock)"
     relationship: "other"
     note: >-
@@ -101,24 +109,29 @@ related_formalizations:
     relationship: "builds-on"
     note: >-
       The compared statements use Mathlib's list vocabulary plus the
-      definitions in Challenge.lean (for each substitution: Letter, s, S,
-      InLanguage, and for the quartic and the tensor substitution
+      definitions in Challenge.lean (for the family: s, S, InLanguage,
+      InLanguageFrom; for the tensor substitution: Letter, s, S, InLanguage,
       InLanguageFrom), which the library modules repeat character for
       character.
 
 status:
   scope: >-
-    Formalized: seven compared theorems, in comparator order, namespace
+    Formalized: five compared theorems, in comparator order, namespace
     FourTickOrientation (see the description). Proved in the repository,
-    not compared: the window lemmas, the three certificates and their kernel
-    checks (closure under image windows; no length-four word together with
-    its reversal), completeness of the certificates for all short factors of
-    all iterates, and the seed-occurrence lemmas. Not formalized: the exact
-    factor counts per length, the occurrence of every certificate word, the
-    characteristic polynomials and inflation factors, primitivity of the
-    cubic substitution (so statement 1 is for the seed a only), and the
-    computed dependence of the threshold on the order of letters inside the
-    images (README, 'What is not claimed').
+    not compared: for the family, the prefix lemma take_S, the parametric
+    certificate and its closure under the substitution, completeness at
+    length four, the length-four exclusion, the length-three witness and
+    the shift lemma; for the tensor, the window lemma, the certificate and
+    its kernel checks, completeness, the length-four exclusion and the
+    seed-occurrence lemmas. Not formalized: the exact factor counts of the
+    family (n^2 - n + 1, 2n^2 - 3n + 2, 3n^2 - 4n at lengths 2, 3, 4) and
+    the exactness of its index-rule certificate (computed for n = 3..40);
+    the tensor factor counts and the occurrence of every tensor
+    certificate word; the characteristic polynomials and inflation
+    factors; the cross-seed form of statement 1 as a separate statement
+    (it follows from statements 1 and 2); and the computed dependence of
+    the tensor threshold on the order of letters inside the images
+    (README, 'What is not claimed').
   sorry_count: 0
   sorry_in_definitions: 0
   axioms: ["propext", "Classical.choice", "Quot.sound"]
@@ -140,9 +153,13 @@ automation:
       prompting_notes: >-
         The tensor threshold was computed on 2026-08-29 on the author's
         question "Why is the chirality question still open?"; the quartic
-        threshold on 2026-11-21. The kernel proofs follow one architecture
-        (certificate, window closure, induction on iterates, length-four
-        prefix argument).
+        threshold on 2026-11-21. On 2026-11-26 the author approved attempting
+        the family theorem before submission ("Sure"); the exact thresholds
+        were computed for n = 3..20, an index-rule certificate was formulated,
+        checked against the computed factor sets for n = 3..40, and the
+        parametric kernel proof followed. The tensor proof follows the
+        certificate architecture (certificate, window closure, induction on
+        iterates, length-four prefix argument).
     - method: "manual"
       models: []
       framework: "n/a"
@@ -168,55 +185,49 @@ fidelity:
     follows because orientation is inherited by longer lengths; this
     inheritance is the argument of the second half and is not stated as a
     separate theorem. (b) Factors are contiguous sub-blocks (List.IsInfix)
-    of the finite iterates S^[n] [seed], not of an infinite fixed point;
-    the empty word is a factor. (c) The cubic statement is for the seed a;
-    the quartic and tensor statements also come in an every-seed and
-    cross-seed form. (d) The tensor substitution is one specific ordering of
-    the letters inside the images (the product ordering, cubic letter
-    outer); other orderings with the same incidence matrix have other
-    thresholds (computed, not formalized). (e) Characteristic polynomials
-    and inflation factors appear only in docstrings and are not used.
+    of the finite iterates S^[k] [seed], not of an infinite fixed point;
+    the empty word is a factor. (c) The family's letters are the natural
+    numbers 1, ..., n; the Lean rule s n x = if x < n then [x + 1] else
+    [1, 2] is a function on all of N (it also sends 0 to 1 and every x > n
+    to 1 2, values never reached from the seeds 1, ..., n). Statement 1 is
+    for n >= 3 and the seed 1; statement 2 for the seeds 1 <= x <= n. The
+    cross-seed form for the family is not stated separately. (d) The tensor
+    substitution is one specific ordering of the letters inside the images
+    (the product ordering, cubic letter outer); other orderings with the
+    same incidence matrix have other thresholds (computed, not formalized).
+    (e) Characteristic polynomials and inflation factors appear only in
+    docstrings and are not used.
 
 review:
   status: "self-assessed"
   reviewers:
     - "Stephanie Alexander"
   notes: >-
-    TODO-PI: the author's reading and approval of the seven compared
+    TODO-PI: the author's reading and approval of the five compared
     statements, with the date. Mechanical checks done at packaging
     (BUILD.txt): build, axioms of every compared declaration, and identity
-    of every Challenge constant the seven statements depend on with the
+    of every Challenge constant the five statements depend on with the
     Solution environment's constant. The registry comparator itself was not
     run locally.
 
 alignment:
   namespace: "FourTickOrientation"
   statements:
-    - source: "This work (F:370, kernel 2026-09-04)"
-      lean: "FourTickOrientation.Cubic.exact_orientation_threshold_four"
+    - source: "This work (computed F:387, 2026-10-18; kernel 2026-11-26, F:655)"
+      lean: "FourTickOrientation.Family.exact_orientation_threshold_four"
       module: "Solution"
       status: "proved"
-      note: "Cubic Padovan substitution, seed a: a length-three palindromic factor exists, and every factor of length at least four has a non-factor reversal."
-    - source: "This work (computed F:559, 2026-11-21)"
-      lean: "FourTickOrientation.Quartic.exact_orientation_threshold_four"
+      note: "For every n >= 3, the substitution of x^n - x - 1, seed 1: a length-three palindromic factor exists (1 2 1), and every factor of length at least four has a non-factor reversal. n = 3 and n = 4 are the cubic and quartic substitutions."
+    - source: "This work (kernel 2026-11-26)"
+      lean: "FourTickOrientation.Family.inLanguageFrom_iff"
       module: "Solution"
       status: "proved"
-      note: "The same for the quartic substitution, seed a."
-    - source: "This work"
-      lean: "FourTickOrientation.Quartic.inLanguageFrom_iff"
-      module: "Solution"
-      status: "proved"
-      note: "The quartic factor language does not depend on the seed letter."
-    - source: "This work"
-      lean: "FourTickOrientation.Quartic.exact_orientation_threshold_four_any_seed"
-      module: "Solution"
-      status: "proved"
-      note: "Statement 2 from every seed, with the reversal excluded from the language of every seed."
+      note: "For every letter 1 <= x <= n, the factor language of the family member from x is the one from 1."
     - source: "This work (computed F:323, 2026-08-29; kernel F:653, 2026-11-25)"
       lean: "FourTickOrientation.Tensor.exact_orientation_threshold_four"
       module: "Solution"
       status: "proved"
-      note: "The same for the twelve-letter tensor substitution, seed p1."
+      note: "The same as statement 1 for the twelve-letter tensor substitution, seed p1."
     - source: "This work (F:653)"
       lean: "FourTickOrientation.Tensor.inLanguageFrom_iff"
       module: "Solution"
@@ -226,7 +237,7 @@ alignment:
       lean: "FourTickOrientation.Tensor.exact_orientation_threshold_four_any_seed"
       module: "Solution"
       status: "proved"
-      note: "Statement 5 from every seed, with the reversal excluded from the language of every seed."
+      note: "Statement 3 from every seed, with the reversal excluded from the language of every seed."
 
 acknowledgements: >-
   Built on Mathlib and the Lean 4 toolchain; thanks to the leanprover

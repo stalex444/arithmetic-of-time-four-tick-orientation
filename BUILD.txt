@@ -1,137 +1,126 @@
-four_tick_orientation -- kernel build record, 2026-11-26 (local packaging session; nothing pushed or submitted)
-Repository (chosen by the PI 2026-11-26, to be created by her): stalex444/arithmetic-of-time-four-tick-orientation
+four_tick_orientation -- kernel build record, version 2, 2026-11-26 (local packaging session; nothing pushed,
+committed or submitted)
+Repository (chosen by the PI 2026-11-26): stalex444/arithmetic-of-time-four-tick-orientation
+Version 2 replaces the separate cubic and quartic compared statements (and FourTickCubic.lean, FourTickQuartic.lean)
+by the family theorem for every n >= 3, of which they are the cases n = 3 and n = 4. The tensor statements are kept.
 Toolchain: leanprover/lean4:v4.31.0
   lean --version: Lean (version 4.31.0, x86_64-unknown-linux-gnu,
                   commit 68218e876d2a38b1985b8590fff244a83c321783, Release)
 Mathlib rev: fabf563a7c95a166b8d7b6efca11c8b4dc9d911f (tag v4.31.0)
-  lake-manifest: the author's development repository's lean/lake-manifest.json (same pin), with the
-    package name changed to four_tick_orientation and mathlib's inputRev set to the full SHA (the
-    lakefile requires mathlib at that SHA)
-  .lake/packages: symlink -> the development repository's lean/.lake/packages (Mathlib already
-    built at fabf563; HEAD of that checkout verified = fabf563a7c95a166b8d7b6efca11c8b4dc9d911f).
-    lake exe cache get was NOT run for this package: the standalone fresh-cache build is the
-    author's step (see the end of this file).
+  lake-manifest: unchanged from version 1 (the author's development repository's lean/lake-manifest.json, same
+    pin, with the package name four_tick_orientation and mathlib's inputRev set to the full SHA)
+  .lake/packages: symlink -> the development repository's lean/.lake/packages (Mathlib already built at fabf563;
+    HEAD of that checkout verified = fabf563a7c95a166b8d7b6efca11c8b4dc9d911f). lake exe cache get was NOT run
+    for this package: the standalone fresh-cache build is the author's step (see the end of this file).
 
-Build: lake build (defaultTargets FourTickWords, FourTickCubic, FourTickQuartic, FourTickTensor,
-  Challenge, Solution) -> Build completed successfully (8569 jobs), exit 0.
-  Fresh copy: the package files were copied (cp, no .lake/build) to a scratch directory with only
-  .lake/packages symlinked; every project module compiled from source: FourTickWords 4.8 s,
-  Challenge 4.6 s, FourTickQuartic 7.2 s, FourTickCubic 13 s, FourTickTensor 42 s, Solution 4.8 s;
-  59 s wall. After a docstring-only edit to FourTickQuartic.lean and FourTickTensor.lean (the token
-  native_decide removed from their opening docstrings) the build was re-run: exit 0, 8569 jobs.
-  The files hashed below are byte-identical (cmp) to the files of that last build.
-  Only warnings: the 7 'declaration uses sorry' warnings of Challenge.lean (lines 87, 130, 137, 144,
-    194, 201, 208: the compared placeholders). No warning in any other module.
+Build: lake build (defaultTargets FourTickWords, FourTickFamily, FourTickTensor, Challenge, Solution)
+  -> Build completed successfully (8567 jobs), exit 0.
+  Fresh copy: the package files were copied (cp, no .lake/build) to a scratch directory with only .lake/packages
+  symlinked; every project module compiled from source: Challenge 5.4 s, FourTickWords 5.6 s, FourTickFamily 17 s,
+  FourTickTensor 39 s, Solution 4.4 s; 57 s wall. The Lean files, lakefile, manifest and comparator.json of that
+  copy are byte-identical (cmp) to the files hashed below.
+  Only warnings: the 5 'declaration uses sorry' warnings of Challenge.lean (lines 86, 93, 141, 148, 155: the
+    compared placeholders). No warning in any other module.
   Token counts (whole-word grep, per file):
-    Challenge.lean        sorry=7 admit=0 native_decide=0 axiom=0
+    Challenge.lean        sorry=5 admit=0 native_decide=0 axiom=0
     Solution.lean         sorry=0 admit=0 native_decide=0 axiom=0
     FourTickWords.lean    sorry=0 admit=0 native_decide=0 axiom=0
-    FourTickCubic.lean    sorry=0 admit=0 native_decide=0 axiom=0
-    FourTickQuartic.lean  sorry=0 admit=0 native_decide=0 axiom=0
+    FourTickFamily.lean   sorry=0 admit=0 native_decide=0 axiom=0
     FourTickTensor.lean   sorry=0 admit=0 native_decide=0 axiom=0
-  All six modules use the module system (module / public import / @[expose] public section).
-  Challenge.lean imports Mathlib only; Solution.lean imports Mathlib, FourTickWords, FourTickCubic,
-  FourTickQuartic, FourTickTensor; the library modules import Mathlib and FourTickWords only.
+    Axioms.lean           sorry=0 admit=0 native_decide=0 axiom=0
+  All five modules use the module system (module / public import / @[expose] public section).
+  Challenge.lean imports Mathlib only; Solution.lean imports Mathlib, FourTickWords, FourTickFamily, FourTickTensor;
+  FourTickTensor imports Mathlib and FourTickWords; FourTickWords imports Mathlib; FourTickFamily imports
+  Mathlib.Logic.Function.Iterate and Mathlib.Tactic.SplitIfs (its source's imports; see Module provenance).
 
-#print axioms (lake env lean Axioms.lean, Axioms.lean importing Solution):
-  'FourTickOrientation.Cubic.exact_orientation_threshold_four' depends on axioms: [propext, Classical.choice, Quot.sound]
-  'FourTickOrientation.Quartic.exact_orientation_threshold_four' depends on axioms: [propext, Classical.choice, Quot.sound]
-  'FourTickOrientation.Quartic.inLanguageFrom_iff' depends on axioms: [propext, Quot.sound]
-  'FourTickOrientation.Quartic.exact_orientation_threshold_four_any_seed' depends on axioms: [propext, Classical.choice, Quot.sound]
+#print axioms (lake env lean Axioms.lean, Axioms.lean importing Solution; identical output in the fresh copy):
+  'FourTickOrientation.Family.exact_orientation_threshold_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'FourTickOrientation.Family.inLanguageFrom_iff' depends on axioms: [propext, Quot.sound]
   'FourTickOrientation.Tensor.exact_orientation_threshold_four' depends on axioms: [propext, Classical.choice, Quot.sound]
   'FourTickOrientation.Tensor.inLanguageFrom_iff' depends on axioms: [propext, Quot.sound]
   'FourTickOrientation.Tensor.exact_orientation_threshold_four_any_seed' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'FourTickOrientation.Family.take_S' depends on axioms: [propext, Quot.sound]
+  'FourTickOrientation.Family.closure' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'FourTickOrientation.Family.G_S' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'FourTickOrientation.Family.factors_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'FourTickOrientation.Family.cert_reverse' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'FourTickOrientation.Family.reversal_forbidden_of_four_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'FourTickOrientation.Family.inLanguage_one_two_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'FourTickOrientation.Family.length_three_orientation_ambiguity' depends on axioms: [propext, Classical.choice, Quot.sound]
+  'FourTickOrientation.Family.iterate_shift' depends on axioms: [propext, Quot.sound]
   'FourTickOrientation.infix_append_split' depends on axioms: [propext, Quot.sound]
-  'FourTickOrientation.Cubic.F5_closed' depends on axioms: [propext]
-  'FourTickOrientation.Cubic.factors_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
-  'FourTickOrientation.Cubic.F5_no_reversal_pair_length_four' depends on axioms: [propext]
-  'FourTickOrientation.Cubic.reversal_forbidden_of_four_le' depends on axioms: [propext, Classical.choice, Quot.sound]
-  'FourTickOrientation.Cubic.length_three_orientation_ambiguity' does not depend on any axioms
-  'FourTickOrientation.Quartic.closed_check' depends on axioms: [propext]
-  'FourTickOrientation.Quartic.rev_check' depends on axioms: [propext]
-  'FourTickOrientation.Quartic.factors_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
-  'FourTickOrientation.Quartic.reversal_forbidden_of_four_le' depends on axioms: [propext, Classical.choice, Quot.sound]
-  'FourTickOrientation.Quartic.length_three_orientation_ambiguity' does not depend on any axioms
-  'FourTickOrientation.Quartic.language_mono' depends on axioms: [propext, Quot.sound]
   'FourTickOrientation.Tensor.closed_check' depends on axioms: [propext]
   'FourTickOrientation.Tensor.rev_check' depends on axioms: [propext]
   'FourTickOrientation.Tensor.factors_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
   'FourTickOrientation.Tensor.reversal_forbidden_of_four_le' depends on axioms: [propext, Classical.choice, Quot.sound]
   'FourTickOrientation.Tensor.length_three_orientation_ambiguity' does not depend on any axioms
-  'FourTickOrientation.Tensor.language_mono' depends on axioms: [propext, Quot.sound] 
-  Permitted (comparator.json): propext, Quot.sound, Classical.choice. Every compared statement is
-  within them.
+  'FourTickOrientation.Tensor.language_mono' depends on axioms: [propext, Quot.sound]
+  Permitted (comparator.json): propext, Quot.sound, Classical.choice. Every compared statement is within them.
 
-Statement identity, Challenge vs Solution (7 theorems; definitions: for each substitution Letter, s,
-  S, InLanguage, and InLanguageFrom for the quartic and the tensor substitution)
-  Source text: 21/21 Challenge declarations identical (code whitespace-normalised, comments
-    stripped; theorem statements up to ':= by', definitions and inductives in full; declaration
-    docstrings word-identical) to the Solution theorems and the library definitions. Challenge and
-    library take the definitions from one generated block per substitution; Challenge and Solution
-    take the statements and docstrings from one generated block per statement.
-  Kernel terms: two files, one importing only Challenge and one importing only Solution, each
-    printed every constant in the namespace FourTickOrientation reachable from the seven compared
-    statements (types of the seven theorems; types and values of every reached definition,
-    inductive, constructor and recursor, including the compiler auxiliaries s.match_1, S.match_1,
-    S._f and Letter.casesOn): 55 constants (7 theorems, 23 definitions, 3 inductives, 19
-    constructors, 3 recursors). The two printouts are identical after normalising hygienic binder
-    names (x._@.Challenge.<hash> vs x._@.FourTickCubic.<hash>; binder names are irrelevant to the
-    kernel). No other difference.
-  Count gate: the Challenge docstring says "compares exactly these seven statements" and enumerates
-    1-7; comparator.json has 7 theorem_names in that order; Challenge.lean has 7 theorem
-    declarations, in that order; the word "sorry" occurs in Challenge.lean exactly 7 times, all in
-    proof bodies. Number words near compared/statements/theorems in README.md, Challenge.lean,
-    formalization.yaml and Solution.lean: all "seven" (and "two inLanguageFrom_iff statements").
+Statement identity, Challenge vs Solution (5 theorems; definitions: Family.s, S, InLanguage, InLanguageFrom;
+  Tensor.Letter, s, S, InLanguage, InLanguageFrom)
+  Source text: 14/14 Challenge declarations identical (code whitespace-normalised, line comments stripped; theorem
+    statements up to ':= by' compared with Solution.lean, definitions and the inductive in full compared with the
+    library modules; declaration docstrings word-identical). Challenge and FourTickFamily take the family
+    definitions from one block; Challenge and Solution take the statements and docstrings from one block per
+    statement; the tensor definitions and statements are those of version 1 (statements renumbered 5-7 -> 3-5).
+  Kernel terms: two files, one importing only Challenge and one importing only Solution, each printed every
+    constant in the namespace FourTickOrientation reachable from the five compared statements (types of the five
+    theorems; types and values of every reached definition; inductive, constructor and recursor data, with
+    recursor rules), serialised with de Bruijn indices and without binder names: 33 constants (5 theorems, 14
+    definitions including the compiler auxiliaries Family.S._f, Family.S.match_1, Tensor.S._f, Tensor.S.match_1,
+    Tensor.s.match_1 and Tensor.Letter.casesOn, 1 inductive, 12 constructors, 1 recursor). The two printouts are
+    byte-identical (cmp; sha256 8ef1a44fa8be9b628a6ea6684030dfeab73f7cde523d4f88181146abdb45deb0).
+  Proofs unchanged: diff of FourTickFamily.lean against the source (from S_nil to
+    length_three_orientation_ambiguity) shows only the moved InLanguage definition; the proof of
+    Family.inLanguageFrom_iff in Solution.lean (with its local lemma iterate_infix_aux) is the source's verbatim.
+  Count gate: the Challenge docstring says "compares exactly these five statements" and enumerates 1-5;
+    comparator.json has 5 theorem_names in that order; Challenge.lean has 5 theorem declarations, in that order;
+    the word "sorry" occurs in Challenge.lean exactly 5 times, all in proof bodies. Number words near
+    compared/statements/theorems in README.md, Challenge.lean, formalization.yaml and Solution.lean: all "five".
+  The check scripts and printouts are kept, untracked, in notes/ (ignored by .gitignore).
 
 Comparator
-  NOT RUN: the registry comparator (lake comparator, nanoda) is not installed in the packaging
-    environment. The kernel-term identity check above is a stand-in, not the comparator. The author's
-    step: run it on her machine before submission, and the registry preflight on the public commit.
+  NOT RUN: the registry comparator (lake comparator, nanoda) is not installed in the packaging environment. The
+    kernel-term identity check above is a stand-in, not the comparator. The author's step: run it on her machine
+    before submission, and the registry preflight on the public commit.
 
-Module provenance (sources: the author's development repository, lean/, at commit
-  6a27c6f0c7e85215cc1e5c1e2dd8ac98a587d4e7)
-  FourTickWords.lean: infix_append_split from PdtChirality.lean
-    (sha256 99aed1e488e8632b72afc422ab141930216dd0406d8e53c2cf4011b95bbb97aa); proof unchanged,
-    namespace FourTickOrientation.
-  FourTickCubic.lean: from PdtChirality.lean (block lengths, prefix_window, infix_window, F5, F5_short,
-    F5_closed, mem_F5_of_infix, factors_complete) and PdtFourTickThreshold.lean
-    (sha256 01c33a558fa68fad5cf4406928833c2adc02d46d161cddc4723a1ffe4df7384b:
-    F5_no_reversal_pair_length_four, reversal_forbidden_of_four_le, iterate_eight,
-    length_three_orientation_ambiguity). Statements and proofs unchanged; namespace
-    FourTickOrientation.Cubic; docstrings of Letter and s reworded; InLanguage moved to the top. The
-    source's exact_orientation_threshold_four is in Solution.lean, its proof unchanged. The source's
-    invariant, chirality and palindrome theorems and its FourTick namespace are not included.
-  FourTickQuartic.lean: from PdtQuarticFourTick.lean
-    (sha256 b141caa08456885ace78ae8f7871d045cdc939c277f725ad42a888286befbe19). Statements and proofs
-    unchanged; namespace FourTickOrientation.Quartic; PDT.Padovan.infix_append_split replaced by the
-    identical FourTickOrientation.infix_append_split; Letter derives DecidableEq only (the source
-    also derived Repr, used by no proof). inLanguageFrom_iff, exact_orientation_threshold_four and
-    exact_orientation_threshold_four_any_seed are in Solution.lean, proofs unchanged.
-  FourTickTensor.lean: Letter, s, S, S_nil, S_cons from PdtRhoQChirality.lean
-    (sha256 f4f1e665280e525af04457ba1003139179f6400649705b39a6273624f5717f5d), everything else from
-    PdtRulerFourTick.lean (sha256 124b2841781d85d4fe12db5402ca978bdbfa7bee24e81cd8dbfa147cecd34f4f).
-    The same changes as for the quartic module. The source's chirality-witness theorems
-    (rhoQ_chirality and companions) are not included.
-  Solution.lean, Challenge.lean, Axioms.lean, comparator.json, lakefile.toml: written for this
-    entry, 2026-11-26.
+Module provenance (sources: the author's development repository, lean/)
+  FourTickFamily.lean: from PdtFamilyFourTick.lean at commit 9ef86bea6209827e8c92064f6d92720341df711a
+    (sha256 af87692f9b0940703409169eb86c9501b4e94a944f37cc09abee5061f576743d). Statements and proofs unchanged;
+    namespace FourTickOrientation.Family; docstrings of s, S, InLanguage, InLanguageFrom reworded; InLanguageFrom
+    moved to the top; the source's #print axioms lines dropped. The source's exact_orientation_threshold_four and
+    inLanguageFrom_iff are in Solution.lean, proofs unchanged. The source's imports are kept: under a full
+    `import Mathlib` the first build failed in `closure` (the `simp at hr` that closes the impossible
+    length-five case no longer closes it under Mathlib's larger simp set), so the module imports exactly
+    Mathlib.Logic.Function.Iterate and Mathlib.Tactic.SplitIfs, as the source does, rather than editing the proof.
+  FourTickTensor.lean, FourTickWords.lean: version 1 of this package (sha256
+    8fa3a15d36207df1934495d03173928f775837a3aca09a7dc2d492894e763d3d and
+    c1106ee276da8963af270856cff25babd6f1ab4955bef20c032f1091c8db619b), whose provenance is: FourTickWords from
+    PdtChirality.lean (infix_append_split, proof unchanged); FourTickTensor from PdtRhoQChirality.lean (Letter, s,
+    S, S_nil, S_cons) and PdtRulerFourTick.lean (everything else), statements and proofs unchanged. Version 2
+    edits module docstrings and one section heading only (references to the removed cubic and quartic modules,
+    and the statement numbers 5-7 -> 3-5); no declaration changes.
+  Solution.lean, Challenge.lean, Axioms.lean, comparator.json, lakefile.toml, README.md, formalization.yaml:
+    rewritten for version 2, 2026-11-26. LICENSE, .gitignore, .github/, lean-toolchain, lake-manifest.json:
+    unchanged from version 1.
 
 Files (sha256)
-  887815381d265dd15e29c3fea84702d656dde260aee486c976877e7c893b3f0e  Challenge.lean
-  f70477243f33f1dbbef542b23b969e58116fd7b7a775b695ae06d3ffb0929f12  Solution.lean
-  c1106ee276da8963af270856cff25babd6f1ab4955bef20c032f1091c8db619b  FourTickWords.lean
-  09745fc4bb32bce9d34a49bafe77029be61ad412f5fec70c9c267c5e5cc69f9d  FourTickCubic.lean
-  67d8edad1de6918ed11b8bf05b948144c36642e740759479933289c0ae07b8bc  FourTickQuartic.lean
-  8fa3a15d36207df1934495d03173928f775837a3aca09a7dc2d492894e763d3d  FourTickTensor.lean
-  4c4aa82f232e988445327cc2a6e9d7606c37d71fd91da10d47ed322211c55882  Axioms.lean
-  4faf8d03b7b39f31463c783a0b332eda96e7dbab569c5a601cf11b8e425e9f31  comparator.json
-  6857cb294080b65b02c7a36f96a8b3fb647ab8545dd2dda6eb852e4ec8a6b234  lakefile.toml
+  9fdaafa67121c48f2e3488411fd0d84e3ab90395748247fc6b1bff978d804174  Challenge.lean
+  17158f5449d1d825e0f0a88eece6bb1d92c178d76330ba5ca31fb4b42ab57cc3  Solution.lean
+  376e3204ecf0462f47b2a5c4149e9c202a3912d07b5569c788d0ba800bbb4af5  FourTickWords.lean
+  da78d17bb4d2a64472dbf2d6843455ea6da91c2413dfd40af24f51e122f885e7  FourTickFamily.lean
+  110a32f0be12eab52e9848fff37b93e25047c5c76ffde45349bb425b421904c8  FourTickTensor.lean
+  6efbedbc776a2bc33e1e0e5e5c3e207876bfbb858b0a2205469192d58cae0401  Axioms.lean
+  1bd0c03f4285fdc7196caf0809cbb685c624daed8d52ce319e823828dabd94f4  comparator.json
+  95d1c3a0a6acd4e0d0a2c86b69e0b6a389b67371d00f133670dadaf2df2997c4  lakefile.toml
   efac0b94923b2d8b6840cd35be9177ad0fc5ab2332f4f4311c98712cee92fdee  lean-toolchain
   32c5e6de9ff3e9fd01dbcccb9590e5350b2e25836fdf32b4aca6d0b8433d9e9a  lake-manifest.json
   (README.md, formalization.yaml, LICENSE, .gitignore and .github/ are hashed in SHA256SUMS.)
 
 Remaining author steps (not done here)
-  1. On her machine: copy the package to a fresh directory, lake exe cache get, lake build, lake env
-     lean Axioms.lean, and the registry comparator; record the results here.
-  2. Clear every TODO-PI (README literature section; formalization.yaml origin note, cost/hardware,
-     review approval); grep -rn TODO-PI must return nothing.
-  3. Create the repository, push, run the preflight workflow on the exact commit, submit.
+  1. On her machine: copy the package to a fresh directory, lake exe cache get, lake build, lake env lean
+     Axioms.lean, and the registry comparator; record the results here.
+  2. Clear the one item marked for the author (formalization.yaml review notes: her reading and approval of the
+     five statements, with the date); a grep for its sentinel must then return nothing.
+  3. Push version 2 to the repository, run the preflight workflow on the exact commit, submit.

@@ -3,11 +3,12 @@ public import Mathlib
 
 @[expose] public section
 /-!
-# FourTickWords — one lemma about lists shared by the three substitutions
+# FourTickWords — one lemma about lists, used by the tensor substitution's window lemma
 
 `infix_append_split`: an infix of `l₁ ++ l₂` is an infix of `l₁`, an infix of `l₂`, or splits as
-a nonempty suffix of `l₁` followed by a prefix of `l₂`. It is the only step of the window lemmas
-(`FourTickCubic`, `FourTickQuartic`, `FourTickTensor`) that does not depend on the alphabet.
+a nonempty suffix of `l₁` followed by a prefix of `l₂`. It is the step of the window lemma of
+`FourTickTensor` that does not depend on the alphabet. (The family module `FourTickFamily` does not
+use it: its closure argument works on prefixes of suffixes, `take_S`.)
 
 Provenance: copied from `PDT.Padovan.infix_append_split` (`PdtChirality.lean` in the author's
 development repository); the statement and the proof are unchanged, only the namespace differs.

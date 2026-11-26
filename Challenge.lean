@@ -3,46 +3,46 @@ public import Mathlib
 
 @[expose] public section
 /-!
-# The exact orientation threshold 4 of the cubic Padovan substitution, the quartic substitution and their twelve-letter tensor (inflation factor `ρQ`)
+# The orientation threshold 4 for the substitutions of `xⁿ − x − 1`, `n ≥ 3`, and the twelve-letter `ρQ` tensor
 
-A substitution `s` sends each letter of a finite alphabet to a nonempty word; `S` applies it
-letterwise to words, and the factor language from a seed letter `x` is the set of words that occur
-as a contiguous block (`List.IsInfix`, written `<:+:`) of some iterate `S^[n] [x]`. Call a length
-`L` *oriented* when no factor of length `L` has its reversal among the factors. Being oriented is
-inherited by every longer length (the reversal of a long factor contains the reversal of its
-length-`L` prefix), and fails at `L` as soon as some factor of length `L` is a palindrome. The
-orientation threshold is the least oriented length. This entry proves that it is exactly `4` for
-three substitutions: a palindrome of length three occurs, and every factor of length at least four
-has a reversal that is not a factor. The entry compares exactly these seven statements.
+A substitution sends each letter to a nonempty word; `S` applies it letterwise to words, and the
+factor language from a seed letter `x` is the set of words that occur as a contiguous block
+(`List.IsInfix`, written `<:+:`) of some iterate `S^[k] [x]`. Call a length `L` *oriented* when no
+factor of length `L` has its reversal among the factors. Being oriented is inherited by every longer
+length (the reversal of a long factor contains the reversal of its length-`L` prefix), and fails at
+`L` as soon as some factor of length `L` is a palindrome. The orientation threshold is the least
+oriented length. This entry proves that it is exactly `4` for every substitution of an infinite
+family and for one further substitution: a palindrome of length three occurs, and every factor of
+length at least four has a reversal that is not a factor. The entry compares exactly these five
+statements.
 
 The substitutions (each is defined below, in its own namespace):
 
-* `Cubic.s`, the cubic Padovan substitution on `{a, b, c}`: `a ↦ b, b ↦ c, c ↦ ab` (incidence
-  matrix with characteristic polynomial `x³ − x − 1`, inflation factor the plastic number `ρ`);
-  seed `a`.
-* `Quartic.s`, the quartic substitution on `{a, b, c, d}`: `a ↦ b, b ↦ c, c ↦ d, d ↦ ab`
-  (characteristic polynomial `x⁴ − x − 1`, inflation factor its real root `Q > 1`); seed `a`.
-* `Tensor.s`, their product on the twelve letters `{p, q, r} × {1, 2, 3, 4}` (`p, q, r` the cubic
-  letters, `1, 2, 3, 4` the quartic ones): the letter `xi` goes to the word of pairs `yj`, `y`
-  running through the cubic image of `x` and, inside it, `j` through the quartic image of `i`.
-  Its incidence matrix is the Kronecker product, with characteristic polynomial
-  `x¹² − 3x⁹ − 2x⁸ + 2x⁶ − x⁵ − 3x⁴ − x³ + x − 1`, the minimal polynomial of `ρQ`; seed `p1`.
+* `Family.s n`, for every `n ≥ 3`, the substitution `σₙ` on the letters `1, …, n` (natural
+  numbers): `i ↦ i+1` for `i < n`, `n ↦ 1 2`. Its incidence matrix has characteristic polynomial
+  `xⁿ − x − 1`. `n = 3` is the cubic Padovan substitution `a ↦ b, b ↦ c, c ↦ ab` (inflation factor
+  the plastic number `ρ`), `n = 4` the quartic substitution `a ↦ b, b ↦ c, c ↦ d, d ↦ ab`
+  (inflation factor the real root `Q > 1` of `x⁴ − x − 1`). Seed `1`.
+* `Tensor.s`, the product of the cubic and the quartic substitution on the twelve letters
+  `{p, q, r} × {1, 2, 3, 4}` (`p, q, r` the cubic letters, `1, 2, 3, 4` the quartic ones): the letter
+  `xi` goes to the word of pairs `yj`, `y` running through the cubic image of `x` and, inside it, `j`
+  through the quartic image of `i`. Its incidence matrix is the Kronecker product, with
+  characteristic polynomial `x¹² − 3x⁹ − 2x⁸ + 2x⁶ − x⁵ − 3x⁴ − x³ + x − 1`, the minimal polynomial
+  of `ρQ`; seed `p1`. It is not a member of the family.
 
 The characteristic polynomials are named for orientation only; no statement uses them.
 
 The compared statements:
 
-1. `Cubic.exact_orientation_threshold_four` — some factor of length three from `a` is its own
-   reversal (`a b a`), and every factor of length at least four has a reversal that is not a
-   factor.
-2. `Quartic.exact_orientation_threshold_four` — the same for the quartic substitution (`a b a`).
-3. `Quartic.inLanguageFrom_iff` — the quartic factor language is the same from every seed letter.
-4. `Quartic.exact_orientation_threshold_four_any_seed` — statement 2 from every seed `x`, with the
-   reversal excluded from the factor language of every seed `y`.
-5. `Tensor.exact_orientation_threshold_four` — the same as statement 1 for the tensor substitution
-   (`q1 q2 q1`).
-6. `Tensor.inLanguageFrom_iff` — the tensor factor language is the same from every seed letter.
-7. `Tensor.exact_orientation_threshold_four_any_seed` — statement 5 from every seed `x`, with the
+1. `Family.exact_orientation_threshold_four` — for every `n ≥ 3`: some factor of length three from
+   `1` is its own reversal (`1 2 1`), and every factor of length at least four has a reversal that
+   is not a factor.
+2. `Family.inLanguageFrom_iff` — for every `n` and every letter `1 ≤ x ≤ n`, the factor language
+   from `x` is the factor language from `1`.
+3. `Tensor.exact_orientation_threshold_four` — the same as statement 1 for the tensor substitution,
+   seed `p1` (`q1 q2 q1`).
+4. `Tensor.inLanguageFrom_iff` — the tensor factor language is the same from every seed letter.
+5. `Tensor.exact_orientation_threshold_four_any_seed` — statement 3 from every seed `x`, with the
    reversal excluded from the factor language of every seed `y`.
 
 Each statement is a statement about finite words and nothing else. The definitions below are the
@@ -53,101 +53,48 @@ statement.
 
 namespace FourTickOrientation
 
-/-! ## The cubic Padovan substitution -/
+/-! ## The family `σₙ`, `n ≥ 3` (characteristic polynomial `xⁿ − x − 1`) -/
 
-namespace Cubic
+namespace Family
 
-/-- The three-letter alphabet of the cubic Padovan substitution. -/
-inductive Letter : Type
-  | a | b | c
-deriving DecidableEq
+/-- The substitution `σₙ` of the family, on the letters `1, …, n` (encoded as natural numbers):
+`i ↦ i+1` for `i < n`, and `n ↦ 1 2`. Its incidence matrix on the letters `1, …, n` has
+characteristic polynomial `xⁿ − x − 1` (named for orientation; not used in any proof). For `n = 3`
+it is the cubic Padovan substitution `a ↦ b, b ↦ c, c ↦ ab`, for `n = 4` the quartic substitution
+`a ↦ b, b ↦ c, c ↦ d, d ↦ ab` (letters `a, b, c, d` = `1, 2, 3, 4`). As a function on `ℕ` it also
+sends `0 ↦ 1` and every `x > n` to `1 2`; the iterates of the seeds `1, …, n` contain only the
+letters `1, …, n`. -/
+def s (n x : ℕ) : List ℕ := if x < n then [x + 1] else [1, 2]
 
-open Letter
-
-/-- The cubic Padovan substitution `a ↦ b, b ↦ c, c ↦ ab`. Its incidence matrix has
-characteristic polynomial `x³ − x − 1` (named for orientation; not used in any proof). -/
-def s : Letter → List Letter
-  | a => [b]
-  | b => [c]
-  | c => [a, b]
-
-/-- `S` applies `s` letterwise to a word, concatenating the image blocks. -/
-def S : List Letter → List Letter
+/-- `S n` applies `s n` letterwise to a word, concatenating the image blocks. -/
+def S (n : ℕ) : List ℕ → List ℕ
   | [] => []
-  | x :: w => s x ++ S w
+  | x :: w => s n x ++ S n w
 
-/-- The factor language from the seed `a`: the words that occur as a contiguous block
-(`<:+:`, `List.IsInfix`) of some iterate `S^[n] [a]`. -/
-def InLanguage (u : List Letter) : Prop :=
-  ∃ n : ℕ, u <:+: S^[n] [Letter.a]
+/-- The factor language of `σₙ` from the seed `1`: the words that occur as a contiguous block
+(`<:+:`, `List.IsInfix`) of some iterate `(S n)^[k] [1]`. -/
+def InLanguage (n : ℕ) (u : List ℕ) : Prop :=
+  ∃ k : ℕ, u <:+: (S n)^[k] [1]
 
-/-- **1. Exact orientation threshold of the cubic Padovan substitution (seed `a`).** Some factor of
-length three is its own reversal, and every factor of length at least four has a reversal that is
-not a factor. -/
-theorem exact_orientation_threshold_four :
-    (∃ u : List Letter, InLanguage u ∧ u.length = 3 ∧ u.reverse = u) ∧
-      (∀ u : List Letter, InLanguage u → 4 ≤ u.length → ¬ InLanguage u.reverse) := by
+/-- The factor language of `σₙ` from the seed letter `x`. -/
+def InLanguageFrom (n x : ℕ) (u : List ℕ) : Prop :=
+  ∃ k : ℕ, u <:+: (S n)^[k] [x]
+
+/-- **1. Exact orientation threshold 4 for every member of the family (`n ≥ 3`, seed `1`).** For the
+substitution `σₙ` (characteristic polynomial `xⁿ − x − 1`), some factor of length three is its own
+reversal (`1 2 1`), and every factor of length at least four has a reversal that is not a factor. -/
+theorem exact_orientation_threshold_four (n : ℕ) (hn : 3 ≤ n) :
+    (∃ u : List ℕ, InLanguage n u ∧ u.length = 3 ∧ u.reverse = u) ∧
+      (∀ u : List ℕ, InLanguage n u → 4 ≤ u.length → ¬ InLanguage n u.reverse) := by
   sorry
 
-end Cubic
-
-/-! ## The quartic substitution -/
-
-namespace Quartic
-
-/-- The four-letter alphabet of the quartic substitution. -/
-inductive Letter : Type
-  | a | b | c | d
-deriving DecidableEq
-
-open Letter
-
-/-- The quartic substitution `a ↦ b, b ↦ c, c ↦ d, d ↦ ab`. Its incidence matrix has
-characteristic polynomial `x⁴ − x − 1` (named for orientation; not used in any proof). -/
-def s : Letter → List Letter
-  | a => [b]
-  | b => [c]
-  | c => [d]
-  | d => [a, b]
-
-/-- `S` applies `s` letterwise to a word, concatenating the image blocks. -/
-def S : List Letter → List Letter
-  | [] => []
-  | x :: w => s x ++ S w
-
-/-- The factor language from the seed `a`: the words that occur as a contiguous block
-(`<:+:`, `List.IsInfix`) of some iterate `S^[n] [a]`. -/
-def InLanguage (u : List Letter) : Prop :=
-  ∃ n : ℕ, u <:+: S^[n] [Letter.a]
-
-/-- The factor language from an arbitrary seed letter `x`. -/
-def InLanguageFrom (x : Letter) (u : List Letter) : Prop :=
-  ∃ n : ℕ, u <:+: S^[n] [x]
-
-/-- **2. Exact orientation threshold of the quartic substitution (seed `a`).** Some factor of
-length three is its own reversal, and every factor of length at least four has a reversal that is
-not a factor. -/
-theorem exact_orientation_threshold_four :
-    (∃ u : List Letter, InLanguage u ∧ u.length = 3 ∧ u.reverse = u) ∧
-      (∀ u : List Letter, InLanguage u → 4 ≤ u.length → ¬ InLanguage u.reverse) := by
+/-- **2. Seed independence of the family's factor languages.** For every letter `1 ≤ x ≤ n`, the
+factor language of `σₙ` from the seed `x` is the factor language from `1`. -/
+theorem inLanguageFrom_iff (n x : ℕ) (hx1 : 1 ≤ x) (hxn : x ≤ n)
+    (u : List ℕ) : InLanguageFrom n x u ↔ InLanguage n u := by
   sorry
 
-/-- **3. Seed independence of the quartic substitution's factor language.** The factor language
-from any seed letter is the factor language from `a`. -/
-theorem inLanguageFrom_iff (x : Letter) (u : List Letter) :
-    InLanguageFrom x u ↔ InLanguage u := by
-  sorry
-
-/-- **4. Exact orientation threshold of the quartic substitution, every seed and across seeds.** For
-any seed letters `x, y`: some factor of length three from `x` is its own reversal, and no factor
-from `x` of length at least four has its reversal among the factors from `y`. -/
-theorem exact_orientation_threshold_four_any_seed (x y : Letter) :
-    (∃ u : List Letter, InLanguageFrom x u ∧ u.length = 3 ∧ u.reverse = u) ∧
-      (∀ u : List Letter, InLanguageFrom x u → 4 ≤ u.length →
-        ¬ InLanguageFrom y u.reverse) := by
-  sorry
-
-end Quartic
+end Family
 
 /-! ## The twelve-letter tensor substitution -/
 
@@ -188,7 +135,7 @@ def InLanguage (u : List Letter) : Prop :=
 def InLanguageFrom (x : Letter) (u : List Letter) : Prop :=
   ∃ n : ℕ, u <:+: S^[n] [x]
 
-/-- **5. Exact orientation threshold of the tensor substitution (seed `p1`).** Some factor of
+/-- **3. Exact orientation threshold of the tensor substitution (seed `p1`).** Some factor of
 length three is its own reversal, and every factor of length at least four has a reversal that is
 not a factor. -/
 theorem exact_orientation_threshold_four :
@@ -196,13 +143,13 @@ theorem exact_orientation_threshold_four :
       (∀ u : List Letter, InLanguage u → 4 ≤ u.length → ¬ InLanguage u.reverse) := by
   sorry
 
-/-- **6. Seed independence of the tensor substitution's factor language.** The factor language
+/-- **4. Seed independence of the tensor substitution's factor language.** The factor language
 from any seed letter is the factor language from `p1`. -/
 theorem inLanguageFrom_iff (x : Letter) (u : List Letter) :
     InLanguageFrom x u ↔ InLanguage u := by
   sorry
 
-/-- **7. Exact orientation threshold of the tensor substitution, every seed and across seeds.** For
+/-- **5. Exact orientation threshold of the tensor substitution, every seed and across seeds.** For
 any seed letters `x, y`: some factor of length three from `x` is its own reversal, and no factor
 from `x` of length at least four has its reversal among the factors from `y`. -/
 theorem exact_orientation_threshold_four_any_seed (x y : Letter) :

@@ -6,14 +6,16 @@ public import FourTickWords
 /-!
 # FourTickTensor — the factor language of the twelve-letter tensor substitution, up to length four
 
-The proof library for statements 5–7 of `Challenge.lean`. The definitions `Letter`, `s`, `S`,
+The proof library for statements 3–5 of `Challenge.lean`. The definitions `Letter`, `s`, `S`,
 `InLanguage`, `InLanguageFrom` are those of `Challenge.lean`, character for character.
 
-* The window lemma (`infix_window`), as for the cubic substitution.
+* The window lemma (`infix_window`): every image block is nonempty, so a factor of `S w` of length
+  `≤ L` lies inside the image of a factor of `w` of length `≤ L`.
 * The certificate `C4`, 456 words of length `≤ 4` (1 + 12 + 79 + 148 + 216 by length), packed into
   a bit mask indexed by a base-13 word code (`inCert`). Two kernel checks by `decide +kernel` over
-  the 22,621 words of length `≤ 4` (by kernel reduction alone): `closed_check` and `rev_check`, as for the
-  quartic substitution. `factors_complete` (used only as an upper bound on the factor set).
+  the 22,621 words of length `≤ 4` (by kernel reduction alone): `closed_check` (the certificate is
+  closed under short windows of images) and `rev_check` (no length-four certificate word has its
+  reversal in the certificate). `factors_complete` (used only as an upper bound on the factor set).
 * `reversal_forbidden_of_four_le`; the eighth iterate from `p1` (28 letters) contains `q1 q2 q1`.
 * Seed independence ingredients: `letter_in_p1_iterate`, `p1_in_letter_iterate`, `language_mono`.
 
@@ -83,7 +85,7 @@ theorem length_S_le : ∀ w : List Letter, (S w).length ≤ 4 * w.length := by
     rw [S_cons, List.length_append, List.length_cons]
     omega
 
-/-! ## The window lemma (as in `FourTickCubic`, for the 12-letter alphabet) -/
+/-! ## The window lemma (for the 12-letter alphabet) -/
 
 /-- **Prefix window lemma.** A prefix of `S w` is a prefix of the image of a
 prefix of `w` that is no longer than it. -/

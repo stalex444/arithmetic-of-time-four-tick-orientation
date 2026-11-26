@@ -1,5 +1,5 @@
 name = "four_tick_orientation"
-defaultTargets = ["FourTickWords", "FourTickCubic", "FourTickQuartic", "FourTickTensor", "Challenge", "Solution"]
+defaultTargets = ["FourTickWords", "FourTickFamily", "FourTickTensor", "Challenge", "Solution"]
 
 [[require]]
 name = "mathlib"
@@ -10,10 +10,7 @@ rev = "fabf563a7c95a166b8d7b6efca11c8b4dc9d911f"
 name = "FourTickWords"
 
 [[lean_lib]]
-name = "FourTickCubic"
-
-[[lean_lib]]
-name = "FourTickQuartic"
+name = "FourTickFamily"
 
 [[lean_lib]]
 name = "FourTickTensor"
